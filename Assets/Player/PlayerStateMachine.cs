@@ -70,5 +70,6 @@ public class PlayerStateMachine : MonoBehaviour {
         public Transform transform;
         public Transform lowestPointTransform;
         public Rigidbody rigidBody;
+        public PhysicsBody physicBody;
     }
 }

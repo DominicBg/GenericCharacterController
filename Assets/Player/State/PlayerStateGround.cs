@@ -10,7 +10,7 @@ public abstract class PlayerStateGround : PlayerState {
     protected void Jump(float forwardVelocity, float upwardVelocity)
     {
         Vector3 velocity = playerRef.input.Direction * forwardVelocity + Vector3.up * upwardVelocity;
-        playerRef.rigidBody.AddForce(velocity, ForceMode.Impulse);
+        playerRef.physicBody.Jump(velocity);
     }
 
     protected void CheckIfFalling()

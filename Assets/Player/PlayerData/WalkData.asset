@@ -13,6 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDataWalk
   acceleration: 1
   walkSpeed: 10
-  jumpForwardVelocity: 10
-  jumpUpwardVelocity: 8
   rotationSpeed: 7
+  physicsResetTime: 1
+  physicsResetMin: 0
+  jumpForwardVelocity: 10
+  jumpUpwardVelocity: 10

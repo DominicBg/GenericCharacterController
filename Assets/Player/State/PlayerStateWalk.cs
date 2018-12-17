@@ -32,6 +32,7 @@ public class PlayerStateWalk : PlayerStateGround
         // if(player.input.getButtonDown) mettre rewired
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            playerRef.physicBody.ResetGravity(data.physicsResetMin, data.physicsResetTime);
             Jump(data.jumpForwardVelocity, data.jumpUpwardVelocity);
         }
     }

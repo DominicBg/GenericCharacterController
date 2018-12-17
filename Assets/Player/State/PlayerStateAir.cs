@@ -25,9 +25,12 @@ public class PlayerStateAir : PlayerState
         CheckIfLanding();
         Move();
         RotateTowardDirection(data.rotationSpeed);
+
+        if(!Input.GetKey(KeyCode.Space))
+        {
+            playerRef.physicBody.ResetGravity();
+        }
     }
-
-
 
     protected void Move()
     {

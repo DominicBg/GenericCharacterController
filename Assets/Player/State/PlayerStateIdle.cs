@@ -22,6 +22,7 @@ public class PlayerStateIdle : PlayerStateGround
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            playerRef.physicBody.ResetGravity(data.physicsResetMin, data.physicsResetTime);
             Jump(0, data.jumpUpwardVelocity);
         }
 

@@ -6,7 +6,12 @@ using UnityEngine;
 public class PlayerDataWalk : ScriptableObject {
     public float acceleration;
     public float walkSpeed;
+  
+    public float rotationSpeed;
+
+    [Header("Physics")]
+    public float physicsResetTime;
+    public float physicsResetMin;
     public float jumpForwardVelocity;
     public float jumpUpwardVelocity;
-    public float rotationSpeed;
 }
