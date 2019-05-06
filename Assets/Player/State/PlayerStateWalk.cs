@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class PlayerStateWalk : PlayerStateGround
 {
     [SerializeField] PlayerDataWalk data;
-    [HideInInspector] public UnityFloatEvent OnWalkEvent = new UnityFloatEvent();
 
     protected override void OnEnd()
     {
@@ -24,15 +23,17 @@ public class PlayerStateWalk : PlayerStateGround
         if (direction.magnitude == 0)
             playerRef.stateMachine.SetState(State.Idle);
 
-        playerRef.transform.position += direction * data.walkSpeed * Time.deltaTime;
-        RotateTowardDirection(data.rotationSpeed);
+        MoveRotate(direction, data.walkSpeed, data.rotationSpeed);
 
-        OnWalkEvent.Invoke(direction.magnitude);
+        //playerRef.transform.position += direction * data.walkSpeed * Time.deltaTime;
+        //RotateTowardDirection(data.rotationSpeed);
+
+        //OnWalkEvent.Invoke(direction.magnitude);
 
         // if(player.input.getButtonDown) mettre rewired
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            playerRef.physicBody.ResetGravity(data.physicsResetMin, data.physicsResetTime);
+            playerRef.physicsBody.ResetGravity(data.physicsResetMin, data.physicsResetTime);
             Jump(data.jumpForwardVelocity, data.jumpUpwardVelocity);
         }
     }

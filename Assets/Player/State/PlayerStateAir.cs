@@ -26,10 +26,10 @@ public class PlayerStateAir : PlayerState
         Move();
         RotateTowardDirection(data.rotationSpeed);
 
-        if(!Input.GetKey(KeyCode.Space))
-        {
-            playerRef.physicBody.ResetGravity();
-        }
+        //if(!Input.GetKey(KeyCode.Space))
+        //{
+        //    playerRef.physicsBody.ResetGravity();
+        //}
     }
 
     protected void Move()

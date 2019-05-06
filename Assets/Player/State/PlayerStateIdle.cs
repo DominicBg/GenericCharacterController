@@ -22,8 +22,12 @@ public class PlayerStateIdle : PlayerStateGround
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            playerRef.physicBody.ResetGravity(data.physicsResetMin, data.physicsResetTime);
+            playerRef.physicsBody.ResetGravity(data.physicsResetMin, data.physicsResetTime);
             Jump(0, data.jumpUpwardVelocity);
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            SetState(State.Attacking);
         }
 
         if (playerRef.input.Direction.magnitude != 0)
