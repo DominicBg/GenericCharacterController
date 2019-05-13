@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : Singleton<AudioManager> {
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+public class AudioManager : Singleton<AudioManager>
+{
 
     [SerializeField] int numberChannelPerGameObject = 6;
     Dictionary<string, Sound> soundDictionary = new Dictionary<string, Sound>();
@@ -12,6 +17,21 @@ public class AudioManager : Singleton<AudioManager> {
     {
         base.SetInstance(this);
         SetSoundBanksToDictionary();
+    }
+
+    [ContextMenu("Generate Const File")]
+    public void GenerateConstFile()
+    {
+        SetSoundBanksToDictionary();
+
+        int count = soundDictionary.Values.Count;
+        string[] sounds = new string[count];
+        int i = 0;
+        foreach (Sound sound in soundDictionary.Values)
+        {
+            sounds[i++] = sound.name;
+        }
+        ConstFileWriter.GenerateConstFile(this, "AudioConst", sounds);
     }
 
     void SetSoundBanksToDictionary()
@@ -73,3 +93,21 @@ public class AudioManager : Singleton<AudioManager> {
     }
 
 }
+
+#if UNITY_EDITOR
+
+[CustomEditor(typeof(AudioManager))]
+public class AudioManagerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        AudioManager audioManager = (AudioManager)target;
+        if (GUILayout.Button("Generate Const File"))
+        {
+            audioManager.GenerateConstFile();
+        }
+    }
+}
+#endif
