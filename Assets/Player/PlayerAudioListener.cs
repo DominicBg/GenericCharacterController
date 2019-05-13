@@ -12,7 +12,7 @@ public class PlayerAudioListener : MonoBehaviour {
 
     void InitializeWalk()
     {
-        PlayerStateWalk walkState = (PlayerStateWalk)stateMachine.GetState(PlayerState.State.Walk);
+        PlayerStateWalk walkState = (PlayerStateWalk)stateMachine.GetState(PlayerStateEnumConst.State.PlayerStateWalk);
         walkState.OnStartEvent.AddListener(() => PlaySound("Start walk what ever"));
         walkState.OnJumpEvent.AddListener(() => PlaySound("Jump"));
     }

@@ -15,7 +15,7 @@ public class PlayerAnimationListener : MonoBehaviour {
 
     void InitializeWalk()
     {
-        PlayerStateWalk walkState = (PlayerStateWalk)stateMachine.GetState(PlayerState.State.Walk);
+        PlayerStateWalk walkState = (PlayerStateWalk)stateMachine.GetState(PlayerStateEnumConst.State.PlayerStateWalk);
         walkState.OnWalkEvent.AddListener((speed) => animator.SetFloat(PlayerAnimationConst.MoveSpeed, speed));
         walkState.OnStartEvent.AddListener(() => animator.SetBool(PlayerAnimationConst.Grounded, true));
         walkState.OnJumpEvent.AddListener(() => animator.SetTrigger(PlayerAnimationConst.Jump));
@@ -23,7 +23,7 @@ public class PlayerAnimationListener : MonoBehaviour {
 
     void InitializeIdle()
     {
-        PlayerStateIdle walkState = (PlayerStateIdle)stateMachine.GetState(PlayerState.State.Idle);
+        PlayerStateIdle walkState = (PlayerStateIdle)stateMachine.GetState(PlayerStateEnumConst.State.PlayerStateIdle);
 
         walkState.OnStartEvent.AddListener(() => animator.SetFloat(PlayerAnimationConst.MoveSpeed, 0f));
         walkState.OnStartEvent.AddListener(() => animator.SetBool(PlayerAnimationConst.Grounded, true));
@@ -32,7 +32,7 @@ public class PlayerAnimationListener : MonoBehaviour {
 
     void InitializeAir()
     {
-        PlayerStateAir airState = (PlayerStateAir)stateMachine.GetState(PlayerState.State.Air);
+        PlayerStateAir airState = (PlayerStateAir)stateMachine.GetState(PlayerStateEnumConst.State.PlayerStateAir);
         airState.OnStartEvent.AddListener(() => animator.SetBool(PlayerAnimationConst.Grounded, false));
     }
 }

@@ -713,7 +713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5ab3113bd8ce04c8b532aec4bad714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: PlayerAnimation
+  fileName: PlayerAnimationConst
 --- !u!1 &926363724
 GameObject:
   m_ObjectHideFlags: 0

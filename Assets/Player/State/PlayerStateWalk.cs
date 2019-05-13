@@ -21,7 +21,7 @@ public class PlayerStateWalk : PlayerStateGround
         Vector3 direction = playerRef.input.Direction;
 
         if (direction.magnitude == 0)
-            playerRef.stateMachine.SetState(State.Idle);
+            SetState(PlayerStateEnumConst.State.PlayerStateIdle);
 
         MoveRotate(direction, data.walkSpeed, data.rotationSpeed);
 

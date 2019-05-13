@@ -6,7 +6,9 @@ using DG.Tweening;
 
 public abstract class PlayerState : CharacterState
 {
-    public enum State { Idle, Walk, Attacking, Knocked, Air, Death };
+    //public enum State { Idle, Walk, Attacking, Knocked, Air, Death };
+    //public abstract State state { get; }
+    //public State state;
 
     protected PlayerStateMachine.PlayerRef playerRef;
     protected PlayerData playerData;
@@ -50,9 +52,9 @@ public abstract class PlayerState : CharacterState
             return;
 
         if (OnGround())
-            SetState(State.Idle);
+            SetState(PlayerStateEnumConst.State.PlayerStateIdle);
         else
-            SetState(State.Air);
+            SetState(PlayerStateEnumConst.State.PlayerStateAir);
     }
 
     bool StillInCurrentState()
@@ -60,12 +62,12 @@ public abstract class PlayerState : CharacterState
         return GetType() == playerRef.stateMachine.GetCurrentState().GetType();
     }
 
-    protected bool IsStateOnCooldown(State state)
+    protected bool IsStateOnCooldown(PlayerStateEnumConst.State state)
     {
         return playerRef.stateMachine.IsStateOnCooldown(state);
     }
 
-    protected void SetState(State state)
+    protected void SetState(PlayerStateEnumConst.State state)
     {
         if (hasChangedState)
             return;
@@ -190,7 +192,7 @@ public abstract class PlayerState : CharacterState
         return playerRef.stateMachine.GetLastState().GetType().IsSubclassOf(typeof(PlayerStateGround));
     }
 
-    public bool IsStateAvailable(State state)
+    public bool IsStateAvailable(PlayerStateEnumConst.State state)
     {
         return playerRef.stateMachine.GetState(state).IsAvailable();
 

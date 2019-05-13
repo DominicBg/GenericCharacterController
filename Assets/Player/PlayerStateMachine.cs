@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerStateMachine : CharacterStateMachine
 {
-
-    [SerializeField] PlayerState.State currentStateEnum;
+    [SerializeField] PlayerStateEnumConst.State currentStateEnum;
 
     [SerializeField] PlayerRef playerRef;
     [SerializeField] PlayerData playerData;
@@ -13,35 +13,48 @@ public class PlayerStateMachine : CharacterStateMachine
 
     PlayerState currentState;
     PlayerState lastState;
-    PlayerState.State lastStateEnum;
+    PlayerStateEnumConst.State lastStateEnum;
 
-    Dictionary<PlayerState.State, PlayerState> stateDictionary = new Dictionary<PlayerState.State, PlayerState>();
+    Dictionary<PlayerStateEnumConst.State, PlayerState> stateDictionary = new Dictionary<PlayerStateEnumConst.State, PlayerState>();
 
     private void Awake()
     {
         InitialiseStateDictionary();
-        SetState(PlayerState.State.Idle);
+        SetState(PlayerStateEnumConst.State.PlayerStateIdle);
         base.Awake();
     }
 
     void Start()
     {
         base.Start();
-        playerRef.healthComponent.OnDeathEvent.AddListener((damageInfo) => SetState(PlayerState.State.Death));
+        playerRef.healthComponent.OnDeathEvent.AddListener((damageInfo) => SetState(PlayerStateEnumConst.State.PlayerStateDeath));
+    }
+
+    [ContextMenu("Test")]
+    void Test()
+    {
+        List<string> names = System.AppDomain.CurrentDomain.GetAssemblies()
+             .SelectMany(x => x.GetTypes())
+             .Where(x => typeof(PlayerState).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+             .Select(x => x.Name).ToList();
+
+        ConstFileWriter.GenerateConstFile(this, "PlayerStateConst", names.ToArray());
+        ConstFileWriter.GenerateEnumConstFile(this, "PlayerStateEnumConst", "State", names.ToArray());
     }
 
     void InitialiseStateDictionary()
     {
-        InitialiseState(PlayerState.State.Idle, stateTransform.GetComponent<PlayerStateIdle>());
-        InitialiseState(PlayerState.State.Walk, stateTransform.GetComponent<PlayerStateWalk>());
-        InitialiseState(PlayerState.State.Attacking, stateTransform.GetComponent<PlayerStateAttack>());
-        InitialiseState(PlayerState.State.Knocked, stateTransform.GetComponent<PlayerStateKnocked>());
-        InitialiseState(PlayerState.State.Air, stateTransform.GetComponent<PlayerStateAir>());
-        InitialiseState(PlayerState.State.Death, stateTransform.GetComponent<PlayerStateDeath>());
+        PlayerState[] playerStates = stateTransform.GetComponents<PlayerState>();
+        foreach (PlayerState state in playerStates)
+        {
+            PlayerStateEnumConst.State value = (PlayerStateEnumConst.State)System.Enum.Parse(typeof(PlayerStateEnumConst.State), state.GetType().Name);
+            print(value);
 
+            InitialiseState(value, state);
+        }
     }
 
-    void InitialiseState(PlayerState.State stateEnum, PlayerState state)
+    void InitialiseState(PlayerStateEnumConst.State stateEnum, PlayerState state)
     {
         state.Initialize(playerRef, playerData);
         stateDictionary.Add(stateEnum, state);
@@ -56,12 +69,12 @@ public class PlayerStateMachine : CharacterStateMachine
         currentState.FixedUpdateState();
     }
 
-    public bool IsStateOnCooldown(PlayerState.State state)
+    public bool IsStateOnCooldown(PlayerStateEnumConst.State state)
     {
         return stateDictionary[state].IsOnCooldown;
     }
 
-    public void SetState(PlayerState.State state)
+    public void SetState(PlayerStateEnumConst.State state)
     {
         if (currentState != null)
         {
@@ -74,7 +87,7 @@ public class PlayerStateMachine : CharacterStateMachine
         currentStateEnum = state;
     }
 
-    public PlayerState GetState(PlayerState.State state)
+    public PlayerState GetState(PlayerStateEnumConst.State state)
     {
         return stateDictionary[state];
     }
@@ -88,18 +101,18 @@ public class PlayerStateMachine : CharacterStateMachine
     {
         return lastState;
     }
-    public PlayerState.State GetLastStateEnum()
+    public PlayerStateEnumConst.State GetLastStateEnum()
     {
         return lastStateEnum;
     }
 
     public override void Knockback(DamageInfo damageInfo, Vector3 force)
     {
-        PlayerStateKnocked state = (PlayerStateKnocked)stateDictionary[PlayerState.State.Knocked];
+        PlayerStateKnocked state = (PlayerStateKnocked)stateDictionary[PlayerStateEnumConst.State.PlayerStateKnocked];
         state.SetKnocked(damageInfo, force);
         
 
-        SetState(PlayerState.State.Knocked);
+        SetState(PlayerStateEnumConst.State.PlayerStateKnocked);
     }
 
     public void OnAnimationEvent(string eventName)

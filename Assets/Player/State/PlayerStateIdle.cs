@@ -27,10 +27,10 @@ public class PlayerStateIdle : PlayerStateGround
         }
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            SetState(State.Attacking);
+            SetState(PlayerStateEnumConst.State.PlayerStateAttack);
         }
 
         if (playerRef.input.Direction.magnitude != 0)
-            playerRef.stateMachine.SetState(State.Walk);
+            playerRef.stateMachine.SetState(PlayerStateEnumConst.State.PlayerStateWalk);
     }
 }

@@ -18,7 +18,7 @@ public abstract class PlayerStateGround : PlayerState {
     {
         if(!OnGround())
         {
-            playerRef.stateMachine.SetState(State.Air);
+            SetState(PlayerStateEnumConst.State.PlayerStateAir);
         }
     }
     protected void Move(Vector3 direction, float moveSpeed)

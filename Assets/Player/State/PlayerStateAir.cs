@@ -54,7 +54,7 @@ public class PlayerStateAir : PlayerState
         {
             //Pourrait être landing state
             OnLandingEvent.Invoke();
-            playerRef.stateMachine.SetState(State.Idle);
+            playerRef.stateMachine.SetState(PlayerStateEnumConst.State.PlayerStateIdle);
         }
     }
 }
